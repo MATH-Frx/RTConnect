@@ -31,15 +31,22 @@
       padding: 2rem;
       border-radius: 20px;
       text-align: center;
-      max-width: 600px;
+      max-width: 700px;
       width: 100%;
       margin-bottom: 2rem;
     }
 
-    h1 { font-size: 2rem; margin-bottom: 1rem; }
-    .version { font-size: 1.1rem; margin-bottom: 1rem; }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
 
-    .btn-download, .btn-old {
+    .version {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-download {
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
       background: linear-gradient(to right, #0072ff, #00c6ff);
@@ -51,9 +58,25 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .btn-download:hover, .btn-old:hover {
+    .btn-download:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px rgba(0,198,255,0.6);
+    }
+
+    .btn-old {
+      padding: 0.4rem 1.2rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 30px;
+      color: #ccc;
+      cursor: pointer;
+      margin: 0.5rem;
+      transition: background 0.3s ease;
+    }
+
+    .btn-old:hover {
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .old-versions {
@@ -72,6 +95,35 @@
     .old-versions a:hover {
       text-decoration: underline;
     }
+
+    .wiki {
+      text-align: left;
+      margin-top: 2rem;
+    }
+
+    .wiki h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .wiki h3 {
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      color: #99d8ff;
+    }
+
+    .wiki p {
+      margin: 0.2rem 0 0.8rem 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -81,6 +133,20 @@
     <button class="btn-download" id="btn-download">📦 Télécharger</button>
     <button class="btn-old" onclick="toggleOld()">🕓 Versions précédentes</button>
     <div class="old-versions" id="old-list"></div>
+
+    <div class="wiki">
+      <h2>📘 Wiki - Installation</h2>
+      <h3>Chrome / Edge (basé sur Chromium)</h3>
+      <p>1. Ouvrez <code>chrome://extensions</code></p>
+      <p>2. Activez le mode développeur (coin haut droit)</p>
+      <p>3. Cliquez sur "Charger l’extension non empaquetée"</p>
+      <p>4. Sélectionnez le dossier extrait du fichier .zip</p>
+
+      <h3>Firefox</h3>
+      <p>1. Ouvrez <code>about:debugging#/runtime/this-firefox</code></p>
+      <p>2. Cliquez sur "Charger un module complémentaire temporaire"</p>
+      <p>3. Sélectionnez le fichier <code>manifest.json</code> du dossier extrait</p>
+    </div>
   </div>
 
   <script>
@@ -96,18 +162,14 @@
       if (!res.ok) throw new Error("Erreur API GitHub");
       const files = await res.json();
 
-      // On filtre les fichiers qui respectent le nom RTConnect-x.y.zip
-      const zipFiles = files
+      return files
         .filter(f => f.name.startsWith(zipPrefix) && f.name.endsWith(zipSuffix))
         .map(f => ({
           name: f.name,
           version: f.name.replace(zipPrefix, "").replace(zipSuffix, ""),
           downloadUrl: f.download_url
-        }));
-
-      // On trie par version décroissante
-      zipFiles.sort((a, b) => compareVersions(b.version, a.version));
-      return zipFiles;
+        }))
+        .sort((a, b) => compareVersions(b.version, a.version));
     }
 
     function compareVersions(a, b) {
@@ -132,7 +194,7 @@
         const list = await fetchZipList();
         const latest = list[0];
 
-        document.getElementById("version").textContent = `Dernière version : ${latest.version}`;
+        document.getElementById("version").textContent = `Dernière version : v${latest.version}`;
         const btn = document.getElementById("btn-download");
         btn.onclick = () => window.location.href = latest.downloadUrl;
 
