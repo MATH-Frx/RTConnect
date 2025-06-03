@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RTConnect - Téléchargement</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+    h1 {
+      color: #333;
+    }
+    #version {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RTConnect Extension</h1>
+    <div id="version">Version : chargement...</div>
+    <button onclick="downloadZip()">Télécharger .zip</button>
+  </div>
+
+  <script>
+    const username = "MathFrx";
+    const repo = "RTConnect";
+    const branch = "main"; // ou "master" selon ton dépôt
+
+    async function getVersion() {
+      const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/manifest.json`;
+
+      try {
+        const response = await fetch(url);
+        const manifest = await response.json();
+        document.getElementById("version").textContent = "Version : " + manifest.version;
+      } catch (e) {
+        document.getElementById("version").textContent = "Erreur de chargement.";
+      }
+    }
+
+    function downloadZip() {
+      const zipUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/RTConnect.zip`;
+      const link = document.createElement("a");
+      link.href = zipUrl;
+      link.download = "RTConnect.zip";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    getVersion();
+  </script>
+</body>
+</html>
