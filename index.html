@@ -2,10 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RTConnect - Téléchargement</title>
   <style>
-    /* --- Font & Reset --- */
     * {
       margin: 0;
       padding: 0;
@@ -16,18 +15,14 @@
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
       color: white;
-    }
-
-    /* --- Animated background gradient --- */
-    body {
       background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027);
       background-size: 400% 400%;
-      animation: gradient 12s ease infinite;
+      animation: gradient 15s ease infinite;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
+      justify-content: flex-start;
+      padding: 2rem 1rem 5rem;
     }
 
     @keyframes gradient {
@@ -36,15 +31,16 @@
       100% {background-position: 0% 50%;}
     }
 
-    /* --- Container --- */
     .card {
       background: rgba(0, 0, 0, 0.5);
-      padding: 3rem 2rem;
+      padding: 2.5rem 2rem;
       border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(0,0,0,0.4);
-      max-width: 400px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      max-width: 600px;
       width: 100%;
+      text-align: center;
+      margin-bottom: 2rem;
     }
 
     .card h1 {
@@ -54,20 +50,18 @@
 
     .version {
       font-size: 1.2rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
-    /* --- Button --- */
     .btn-download {
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
-      background: #00c6ff;
       background: linear-gradient(to right, #0072ff, #00c6ff);
       border: none;
       border-radius: 30px;
       color: white;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      transition: 0.3s ease;
     }
 
     .btn-download:hover {
@@ -75,15 +69,61 @@
       box-shadow: 0 4px 20px rgba(0,198,255,0.4);
     }
 
-    /* --- Responsive --- */
-    @media screen and (max-width: 500px) {
-      .card {
-        padding: 2rem 1rem;
-      }
+    .wiki {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
 
-      .card h1 {
-        font-size: 1.6rem;
-      }
+    .wiki h2 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    details {
+      margin-bottom: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+    }
+
+    summary {
+      font-weight: bold;
+      font-size: 1.05rem;
+      cursor: pointer;
+    }
+
+    details[open] summary {
+      color: #00c6ff;
+    }
+
+    p {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    code {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    a {
+      color: #00c6ff;
+    }
+
+    @media (max-width: 500px) {
+      .card h1 { font-size: 1.6rem; }
+      .wiki h2 { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -94,6 +134,39 @@
     <button class="btn-download" onclick="downloadZip()">📦 Télécharger .zip</button>
   </div>
 
+  <div class="wiki">
+    <h2>📘 Installer l’extension manuellement</h2>
+
+    <details>
+      <summary>🌐 Google Chrome / Brave</summary>
+      <p>
+        1. Ouvre <code>chrome://extensions</code><br>
+        2. Active le mode <strong>Développeur</strong> (coin supérieur droit)<br>
+        3. Clique sur <strong>"Charger l'extension non empaquetée"</strong><br>
+        4. Sélectionne le dossier extrait du fichier <code>RTConnect.zip</code>
+      </p>
+    </details>
+
+    <details>
+      <summary>🦊 Mozilla Firefox</summary>
+      <p>
+        1. Ouvre <code>about:debugging#/runtime/this-firefox</code><br>
+        2. Clique sur <strong>"Charger un module complémentaire temporaire"</strong><br>
+        3. Sélectionne le fichier <code>manifest.json</code> à l’intérieur du dossier extrait
+      </p>
+    </details>
+
+    <details>
+      <summary>🧿 Microsoft Edge</summary>
+      <p>
+        1. Ouvre <code>edge://extensions</code><br>
+        2. Active le mode <strong>Développeur</strong><br>
+        3. Clique sur <strong>"Charger l’extension non empaquetée"</strong><br>
+        4. Choisis le dossier extrait de <code>RTConnect.zip</code>
+      </p>
+    </details>
+  </div>
+
   <script>
     const username = "MATH-Frx";
     const repo = "RTConnect";
@@ -101,11 +174,10 @@
 
     async function getVersion() {
       const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/manifest.json`;
-
       try {
-        const response = await fetch(url);
-        const manifest = await response.json();
-        document.getElementById("version").textContent = "Version : " + manifest.version;
+        const res = await fetch(url);
+        const json = await res.json();
+        document.getElementById("version").textContent = "Version : " + json.version;
       } catch (e) {
         document.getElementById("version").textContent = "❌ Erreur de chargement";
       }
@@ -113,10 +185,10 @@
 
     function downloadZip() {
       const zipUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/RTConnect.zip`;
-      const link = document.createElement("a");
-      link.href = zipUrl;
-      link.download = "RTConnect.zip";
-      link.click();
+      const a = document.createElement("a");
+      a.href = zipUrl;
+      a.download = "RTConnect.zip";
+      a.click();
     }
 
     getVersion();
