@@ -5,41 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RTConnect - Téléchargement</title>
   <style>
+    /* Reset & base styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    body, html {
+    html, body {
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
       color: white;
-      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body {
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027, #00c6ff);
+      background-size: 600% 600%;
+      animation: gradientBG 12s ease infinite;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 2rem 1rem 5rem;
+      padding: 3rem 1rem;
     }
 
-    @keyframes gradient {
+    @keyframes gradientBG {
       0% {background-position: 0% 50%;}
+      25% {background-position: 50% 50%;}
       50% {background-position: 100% 50%;}
+      75% {background-position: 50% 50%;}
       100% {background-position: 0% 50%;}
     }
 
+    /* Card (version + bouton) */
     .card {
       background: rgba(0, 0, 0, 0.5);
-      padding: 2.5rem 2rem;
+      backdrop-filter: blur(10px);
+      padding: 2rem;
       border-radius: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+      text-align: center;
       max-width: 600px;
       width: 100%;
-      text-align: center;
       margin-bottom: 2rem;
     }
 
@@ -49,7 +57,7 @@
     }
 
     .version {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 1.5rem;
     }
 
@@ -61,68 +69,80 @@
       border-radius: 30px;
       color: white;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .btn-download:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(0,198,255,0.4);
+      box-shadow: 0 0 15px rgba(0,198,255,0.6);
     }
 
+    /* Wiki */
     .wiki {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
       max-width: 600px;
       width: 100%;
-      padding: 1rem 1.5rem;
-      color: #fff;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
 
     .wiki h2 {
-      margin-bottom: 1rem;
       font-size: 1.4rem;
+      margin-bottom: 1rem;
       text-align: center;
     }
 
     details {
       margin-bottom: 1rem;
-      background: rgba(0, 0, 0, 0.3);
       border-radius: 10px;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.3);
     }
 
     summary {
+      list-style: none;
+      padding: 0.75rem 1rem;
       font-weight: bold;
-      font-size: 1.05rem;
       cursor: pointer;
+      background: rgba(0, 0, 0, 0.4);
+      transition: background 0.3s ease;
+      border: none;
+      outline: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
     }
 
     details[open] summary {
+      background: rgba(0,0,0,0.6);
       color: #00c6ff;
     }
 
-    p {
-      margin-top: 0.5rem;
+    details p {
+      padding: 0.75rem 1rem 1rem;
       font-size: 0.95rem;
       line-height: 1.5;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-5px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
     code {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(255,255,255,0.1);
       padding: 2px 6px;
       border-radius: 4px;
       font-family: monospace;
     }
 
-    a {
-      color: #00c6ff;
-    }
-
     @media (max-width: 500px) {
-      .card h1 { font-size: 1.6rem; }
+      .card h1 { font-size: 1.5rem; }
       .wiki h2 { font-size: 1.2rem; }
     }
   </style>
@@ -135,15 +155,15 @@
   </div>
 
   <div class="wiki">
-    <h2>📘 Installer l’extension manuellement</h2>
+    <h2>📘 Installer l’extension (non empaquetée)</h2>
 
     <details>
       <summary>🌐 Google Chrome / Brave</summary>
       <p>
         1. Ouvre <code>chrome://extensions</code><br>
-        2. Active le mode <strong>Développeur</strong> (coin supérieur droit)<br>
+        2. Active le <strong>mode développeur</strong><br>
         3. Clique sur <strong>"Charger l'extension non empaquetée"</strong><br>
-        4. Sélectionne le dossier extrait du fichier <code>RTConnect.zip</code>
+        4. Sélectionne le dossier extrait de <code>RTConnect.zip</code>
       </p>
     </details>
 
@@ -152,7 +172,7 @@
       <p>
         1. Ouvre <code>about:debugging#/runtime/this-firefox</code><br>
         2. Clique sur <strong>"Charger un module complémentaire temporaire"</strong><br>
-        3. Sélectionne le fichier <code>manifest.json</code> à l’intérieur du dossier extrait
+        3. Sélectionne le fichier <code>manifest.json</code> dans le dossier extrait
       </p>
     </details>
 
@@ -160,9 +180,9 @@
       <summary>🧿 Microsoft Edge</summary>
       <p>
         1. Ouvre <code>edge://extensions</code><br>
-        2. Active le mode <strong>Développeur</strong><br>
+        2. Active le <strong>mode développeur</strong><br>
         3. Clique sur <strong>"Charger l’extension non empaquetée"</strong><br>
-        4. Choisis le dossier extrait de <code>RTConnect.zip</code>
+        4. Sélectionne le dossier extrait
       </p>
     </details>
   </div>
