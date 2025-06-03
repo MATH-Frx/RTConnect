@@ -1,54 +1,103 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RTConnect - Téléchargement</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      text-align: center;
-      padding: 50px;
+    /* --- Font & Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: inline-block;
-    }
-    h1 {
-      color: #333;
-    }
-    #version {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1em;
-      background-color: #007bff;
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
       color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
     }
-    button:hover {
-      background-color: #0056b3;
+
+    /* --- Animated background gradient --- */
+    body {
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    @keyframes gradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* --- Container --- */
+    .card {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .card h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .version {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* --- Button --- */
+    .btn-download {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: #00c6ff;
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-download:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0,198,255,0.4);
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 500px) {
+      .card {
+        padding: 2rem 1rem;
+      }
+
+      .card h1 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>RTConnect Extension</h1>
-    <div id="version">Version : chargement...</div>
-    <button onclick="downloadZip()">Télécharger .zip</button>
+  <div class="card">
+    <h1>🚀 RTConnect Extension</h1>
+    <div class="version" id="version">Version : chargement...</div>
+    <button class="btn-download" onclick="downloadZip()">📦 Télécharger .zip</button>
   </div>
 
   <script>
     const username = "MATH-Frx";
     const repo = "RTConnect";
-    const branch = "main"; // ou "master" selon ton dépôt
+    const branch = "main";
 
     async function getVersion() {
       const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/manifest.json`;
@@ -58,7 +107,7 @@
         const manifest = await response.json();
         document.getElementById("version").textContent = "Version : " + manifest.version;
       } catch (e) {
-        document.getElementById("version").textContent = "Erreur de chargement.";
+        document.getElementById("version").textContent = "❌ Erreur de chargement";
       }
     }
 
@@ -67,9 +116,7 @@
       const link = document.createElement("a");
       link.href = zipUrl;
       link.download = "RTConnect.zip";
-      document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
     }
 
     getVersion();
