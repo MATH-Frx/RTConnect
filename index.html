@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>RTConnect - Téléchargement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Reset & base styles */
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
       font-family: 'Segoe UI', sans-serif;
       color: white;
-      overflow-x: hidden;
-    }
-
-    /* Animated background */
-    body {
       background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027, #00c6ff);
       background-size: 600% 600%;
       animation: gradientBG 12s ease infinite;
@@ -32,36 +21,25 @@
 
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
-      25% {background-position: 50% 50%;}
       50% {background-position: 100% 50%;}
-      75% {background-position: 50% 50%;}
       100% {background-position: 0% 50%;}
     }
 
-    /* Card (version + bouton) */
     .card {
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       padding: 2rem;
       border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.4);
       text-align: center;
       max-width: 600px;
       width: 100%;
       margin-bottom: 2rem;
     }
 
-    .card h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
+    h1 { font-size: 2rem; margin-bottom: 1rem; }
+    .version { font-size: 1.1rem; margin-bottom: 1rem; }
 
-    .version {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .btn-download {
+    .btn-download, .btn-old {
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
       background: linear-gradient(to right, #0072ff, #00c6ff);
@@ -69,149 +47,110 @@
       border-radius: 30px;
       color: white;
       cursor: pointer;
+      margin: 0.5rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .btn-download:hover {
+    .btn-download:hover, .btn-old:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px rgba(0,198,255,0.6);
     }
 
-    /* Wiki */
-    .wiki {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 1.5rem;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    .wiki h2 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    details {
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    summary {
-      list-style: none;
-      padding: 0.75rem 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.4);
-      transition: background 0.3s ease;
-      border: none;
-      outline: none;
-    }
-
-    summary::-webkit-details-marker {
+    .old-versions {
+      margin-top: 1rem;
       display: none;
+      text-align: left;
     }
 
-    details[open] summary {
-      background: rgba(0,0,0,0.6);
+    .old-versions a {
+      display: block;
+      margin: 0.3rem 0;
       color: #00c6ff;
+      text-decoration: none;
     }
 
-    details p {
-      padding: 0.75rem 1rem 1rem;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      animation: fadeIn 0.3s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(-5px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    code {
-      background: rgba(255,255,255,0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-
-    @media (max-width: 500px) {
-      .card h1 { font-size: 1.5rem; }
-      .wiki h2 { font-size: 1.2rem; }
+    .old-versions a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>🚀 RTConnect Extension</h1>
-    <div class="version" id="version">Version : chargement...</div>
-    <button class="btn-download" onclick="downloadZip()">📦 Télécharger .zip</button>
-  </div>
-
-  <div class="wiki">
-    <h2>📘 Installer l’extension (non empaquetée)</h2>
-
-    <details>
-      <summary>🌐 Google Chrome / Brave</summary>
-      <p>
-        1. Ouvre <code>chrome://extensions</code><br>
-        2. Active le <strong>mode développeur</strong><br>
-        3. Clique sur <strong>"Charger l'extension non empaquetée"</strong><br>
-        4. Sélectionne le dossier extrait de <code>RTConnect.zip</code>
-      </p>
-    </details>
-
-    <details>
-      <summary>🦊 Mozilla Firefox</summary>
-      <p>
-        1. Ouvre <code>about:debugging#/runtime/this-firefox</code><br>
-        2. Clique sur <strong>"Charger un module complémentaire temporaire"</strong><br>
-        3. Sélectionne le fichier <code>manifest.json</code> dans le dossier extrait
-      </p>
-    </details>
-
-    <details>
-      <summary>🧿 Microsoft Edge</summary>
-      <p>
-        1. Ouvre <code>edge://extensions</code><br>
-        2. Active le <strong>mode développeur</strong><br>
-        3. Clique sur <strong>"Charger l’extension non empaquetée"</strong><br>
-        4. Sélectionne le dossier extrait
-      </p>
-    </details>
+    <div class="version" id="version">Chargement des versions...</div>
+    <button class="btn-download" id="btn-download">📦 Télécharger</button>
+    <button class="btn-old" onclick="toggleOld()">🕓 Versions précédentes</button>
+    <div class="old-versions" id="old-list"></div>
   </div>
 
   <script>
     const username = "MATH-Frx";
     const repo = "RTConnect";
     const branch = "main";
+    const zipPrefix = "RTConnect-";
+    const zipSuffix = ".zip";
 
-    async function getVersion() {
-      const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/manifest.json`;
+    async function fetchZipList() {
+      const apiURL = `https://api.github.com/repos/${username}/${repo}/contents?ref=${branch}`;
+      const res = await fetch(apiURL);
+      if (!res.ok) throw new Error("Erreur API GitHub");
+      const files = await res.json();
+
+      // On filtre les fichiers qui respectent le nom RTConnect-x.y.zip
+      const zipFiles = files
+        .filter(f => f.name.startsWith(zipPrefix) && f.name.endsWith(zipSuffix))
+        .map(f => ({
+          name: f.name,
+          version: f.name.replace(zipPrefix, "").replace(zipSuffix, ""),
+          downloadUrl: f.download_url
+        }));
+
+      // On trie par version décroissante
+      zipFiles.sort((a, b) => compareVersions(b.version, a.version));
+      return zipFiles;
+    }
+
+    function compareVersions(a, b) {
+      const pa = a.split('.').map(Number);
+      const pb = b.split('.').map(Number);
+      for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+        const na = pa[i] || 0;
+        const nb = pb[i] || 0;
+        if (na > nb) return 1;
+        if (na < nb) return -1;
+      }
+      return 0;
+    }
+
+    function toggleOld() {
+      const el = document.getElementById("old-list");
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+
+    async function init() {
       try {
-        const res = await fetch(url);
-        const json = await res.json();
-        document.getElementById("version").textContent = "Version : " + json.version;
-      } catch (e) {
-        document.getElementById("version").textContent = "❌ Erreur de chargement";
+        const list = await fetchZipList();
+        const latest = list[0];
+
+        document.getElementById("version").textContent = `Dernière version : ${latest.version}`;
+        const btn = document.getElementById("btn-download");
+        btn.onclick = () => window.location.href = latest.downloadUrl;
+
+        const oldList = document.getElementById("old-list");
+        list.slice(1).forEach(file => {
+          const a = document.createElement("a");
+          a.href = file.downloadUrl;
+          a.textContent = `RTConnect v${file.version}`;
+          a.download = file.name;
+          oldList.appendChild(a);
+        });
+      } catch (err) {
+        document.getElementById("version").textContent = "Erreur de chargement des versions.";
+        console.error(err);
       }
     }
 
-    function downloadZip() {
-      const zipUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/RTConnect.zip`;
-      const a = document.createElement("a");
-      a.href = zipUrl;
-      a.download = "RTConnect.zip";
-      a.click();
-    }
-
-    getVersion();
+    init();
   </script>
 </body>
 </html>
